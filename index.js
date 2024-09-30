@@ -17,6 +17,25 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
+function setId(req, res, next) {
+  const authHeader = req.headers.authorization;
+
+  if (!authHeader) {
+    return res.status(401).json({ error: "Authorization header is missing" });
+  }
+
+  // Split the header to get the token
+  const token = authHeader.split(" ")[1]; // This assumes the header is in the format "Bearer <token>"
+
+  if (!token) {
+    return res.status(401).json({ error: "Token is missing" });
+  }
+
+  // Optionally, you can verify the token here if needed
+  req.userId = Number(token); // You can set req.userId or another property as needed
+  next();
+}
+
 //Routes
 
 app.post("/api/auth/login", async (req, res) => {
@@ -64,12 +83,6 @@ app.post("/api/auth/register", async (req, res) => {
   }
 });
 
-//User Id Corresponding - TODOS Table apna content - store
-//FindMany
-//Create
-//Update
-//Delete
-
 //Create a todo
 
 app.post("/api/todo", async (req, res) => {
@@ -90,7 +103,7 @@ app.post("/api/todo", async (req, res) => {
 });
 
 // Fetch all todos for the logged-in user
-app.get("/api/todos", async (req, res) => {
+app.get("/api/todos",setId, async (req, res) => {
   try {
     const todos = await prisma.todo.findMany({
       where: {

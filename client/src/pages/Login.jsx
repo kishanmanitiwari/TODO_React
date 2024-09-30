@@ -36,6 +36,7 @@ export default function Login() {
         userPass,
       });
       console.log(response.data);
+      localStorage.setItem("userId", response.data.userId);
 
       // Show success toast
       toast.success("User Login successfully!"); // Toast notification
