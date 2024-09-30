@@ -19,7 +19,7 @@ app.use(cors());
 
 //Routes
 
-app.get("/api/auth/login", async (req, res) => {
+app.post("/api/auth/login", async (req, res) => {
   const { userId, userPass } = req.body;
 
   //Check - if the user exist and the check the password
@@ -33,7 +33,11 @@ app.get("/api/auth/login", async (req, res) => {
 
     if (user) {
       if (user.password === userPass) {
-        return res.status(200).json({ status: "Authenticated" });
+        return res.status(200).json({
+          status: "Authenticated",
+          userId: user.u_id,
+          userName: user.name,
+        });
       } else {
         return res.status(404).json({ status: "Invalid Password" });
       }

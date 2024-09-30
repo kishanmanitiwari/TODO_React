@@ -26,11 +26,7 @@ export default function Register() {
         userPass,
       });
       console.log(response.data);
-      setUser({
-        name: "",
-        email: "",
-        password: "",
-      });
+  
       // Show success toast
       toast.success("User registered successfully!"); // Toast notification
     } catch (error) {
@@ -39,6 +35,11 @@ export default function Register() {
       toast.error("Registration failed. Please try again."); // Toast notification for error
     } finally {
       setIsLoading(false);
+      setUser({
+        name: "",
+        email: "",
+        password: "",
+      });
     }
   }
 
