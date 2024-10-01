@@ -1,17 +1,18 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { API_LINK } from "../utils";
+import useStore from "../store/UserStore";
 
 const TodoDashboard = () => {
   const [todos, setTodos] = useState([]);
   const [newTodo, setNewTodo] = useState("");
+  const {userId,isAuthenticated} = useStore();
 
   useEffect(()=>{
     fetchTodo();
   },[])
 
   async function fetchTodo() {
-    const userId = localStorage.getItem("userId");
     
     // Ensure userId is a string and not converted to a number
     const token = `Bearer ${userId}`; // Construct the Bearer token

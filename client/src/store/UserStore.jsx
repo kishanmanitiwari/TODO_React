@@ -5,7 +5,14 @@ const useStore = create((set) => ({
   setIsLoading: () => set({ isLoading: true }),
 
   userId: null,
-  setUserId: () => (userId) => set({ userId: userId }),
+  isAuthenticated: false,
+
+
+  setUserId: () => () => {
+    const userId = localStorage.getItem("userId");
+    set({userId:userId,isAuthenticated:true})
+
+  }
 }));
 
 export default useStore;

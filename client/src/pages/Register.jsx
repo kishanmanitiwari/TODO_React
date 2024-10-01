@@ -6,7 +6,7 @@ import axios from "axios";
 import { Hourglass } from "react-loader-spinner"; // Ensure this is the correct import for your loader
 import { ToastContainer, toast } from "react-toastify"; // Import Toastify
 import "react-toastify/dist/ReactToastify.css"; // Import styles for Toastify
-import useStore from "../store/store.jsx";
+import useStore from "../store/UserStore.jsx";
 
 
 export default function Register() {
