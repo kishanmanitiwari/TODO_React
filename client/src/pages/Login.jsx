@@ -7,6 +7,7 @@ import { Hourglass } from "react-loader-spinner"; // Ensure this is the correct 
 import { ToastContainer, toast } from "react-toastify"; // Import Toastify
 import "react-toastify/dist/ReactToastify.css"; // Import styles for Toastify
 import { useNavigate } from "react-router-dom"; // If using React Router for navigation
+import useStore from "../store/store.jsx";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -14,7 +15,7 @@ export default function Login() {
     userId: "",
     userPass: "",
   });
-  const [isLoading, setIsLoading] = useState(false);
+  const { isLoading, setIsLoading } = useStore();
 
   function handleChange(event) {
     const { name, value } = event.target;
