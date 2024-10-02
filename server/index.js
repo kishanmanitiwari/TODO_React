@@ -3,6 +3,7 @@ import bodyParser from "body-parser";
 import dotenv from "dotenv";
 import { PrismaClient } from "@prisma/client";
 import cors from "cors";
+import bcrypt from 'bcrypt';
 
 //Instance
 
@@ -51,7 +52,9 @@ app.post("/api/auth/login", async (req, res) => {
     });
 
     if (user) {
-      if (user.password === userPass) {
+      const hashedPassword = user.password;
+      const match = await bcrypt.compare(userPass, hashedPassword);
+      if (match) {
         return res.status(200).json({
           status: "Authenticated",
           userId: user.u_id,
@@ -70,15 +73,18 @@ app.post("/api/auth/register", async (req, res) => {
   const { userName, userId, userPass } = req.body;
 
   try {
+    const hashedPassword = await bcrypt.hash(userPass,4);
     const newUser = await prisma.users.create({
       data: {
         name: userName,
         email: userId,
-        password: userPass,
+        password: hashedPassword,
       },
     });
     return res.status(201).json({ user: newUser });
   } catch (error) {
+    console.log(error);
+    
     return res.status(500).json({ error: error });
   }
 });
